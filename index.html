@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-4">
+            <div class="input-group mb-3">
+                <input id="country-search" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="btn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="name-country">Dhaka</h1>
+            <p id="time"></p>
+            <h1 id="cel"><span>38.09</span>&deg;C</h1>
+            <h1 id="description" class="lead">Clouds</h1>
+        </div>
+        <footer class="text-center display-4 text-warning ">Shimul</footer>
+    </div>
+           
+    <script>
+         const country=   document.getElementById('country-search');
+           
+           const getbtn = document.getElementById('btn').addEventListener('click',function(){
+              
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+country.value+'&appid=61f9726bf372ba3ddfe31b985c942ce2')
+        .then(res => res.json())
+        .then(data =>{
+
+          
+            const wp = data.name  
+            const tem = data.main 
+           const des = data['weather'][0]['description']
+            const res = tem.temp
+            const time = data.dt
+            const weather = Math.round(res-273.15)
+            document.getElementById('name-country').innerText=wp;
+              document.getElementById('cel').innerText=weather+" "+"C";
+             // document.getElementById('description').innerText=des;
+
+    function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
+const nowtime = timeConverter(time);
+document.getElementById('time').innerText=nowtime
+           
+           })
+
+           
+        })
+    </script>
+
+
+
+
+</body>
+
+</html>
